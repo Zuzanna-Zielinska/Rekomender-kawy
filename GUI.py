@@ -17,6 +17,7 @@
 # przycisk powrotu do main window
 # można jeszcze coś dodać ale na razie tyle
 # będziemy wyświetlać 3 dania i możliwe, że przekąski to początkowo 3 pola opisane śniadanie, obiad, kolacja
+# obiaad składa się z zupy i drugiego dania
 
 from tkinter import *
 
