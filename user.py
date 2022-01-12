@@ -22,9 +22,14 @@ def create_user(imie, nazwisko, preferencje):
     df = df.append(new_user, ignore_index=True)
     df.to_csv('db/users.csv', index=False)
 
+'''
+Funkcja usuwająca użytkownika przyjmująca imię, nazwisko  or user_id,  preferable user_id
+'''
+def delete_user(user_id):
+    df = pd.read_csv('db/users.csv')
+    df = df.loc[df['user_id'] != user_id]
+    df.to_csv('db/users.csv', index=False)
 
-create_user('adam', 'wojniak', 'angi cos ans')
 
-
-def delete_user():
-    pass
+# delete_user(1)
+# create_user('adam', 'wojniak', 'angi cos ans')
