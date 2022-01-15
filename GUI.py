@@ -20,6 +20,11 @@
 # obiaad składa się z zupy i drugiego dania
 
 from tkinter import *
+from tkinter import ttk
+from typing import NewType
+
+Page = NewType('Page', object)  # pomocnicza podpowiedź typu
+window = NewType('window', object)
 
 """
 Interfejs wyświetlania okna.
@@ -39,15 +44,29 @@ class I_Window():
         self.window.mainloop()
         
 """
+Główne okno programu. Inicjuje stronę startową.
+
+Przyjmuje:
+    width - szerokość okna
+    height - wysokość okna
+"""
+class Main_Window(I_Window):
+    def __init__(self, *args, **kwargs):
+        
+        super().__init__(*args, **kwargs) #załadowanie initu z rodzica
+        Start_Page(self.window)
+
+        
+"""
 Interfejs wyświetlania strony.
 
 Przyjmuje:
     window - okno programu
 """
 class I_Page():
-    def __init__(self, window):
+    def __init__(self, window: window):
         self.window = window
-        
+        self.number_of_frames = 0
         self.style_table()
         
     def style_table(self):
@@ -69,28 +88,37 @@ class I_Page():
         for child in self.window.winfo_children():
             child.destroy()
             
-    #TODO: uniwersalna funkcja przełączania strony (poniższa jeszcze nie działa)
-    def change_page(self, New_Page):
+    def change_page(self, New_Page: Page):
         '''
         Przełączenie do innej strony
         '''
         
         self.clear_window()
-        Create_User_Page(self.window)
-    
-
-"""
-Główne okno programu. Inicjuje stronę startową.
-
-Przyjmuje:
-    width - szerokość okna
-    height - wysokość okna
-"""
-class Main_Window(I_Window):
-    def __init__(self, *args, **kwargs):
+        New_Page(self.window)
         
-        super().__init__(*args, **kwargs) #załadowanie initu z rodzica
-        Start_Page(self.window)
+    def make_frames(self, n: int):
+        
+        self.frames = []
+        self.number_of_frames = n
+        
+        # ----elementy w oknie dopasowują się do jego rozmiaru----
+        self.window.columnconfigure(0, weight=1)
+        for i in range(2):
+            self.window.rowconfigure(i, weight=1)
+        # --------------------------------------------------------
+        
+        for i in range(n):
+            
+            self.frames.append(Frame(master = self.window))
+            self.frames[i].grid(row=i, column=0, sticky="n")
+            
+    def add_frame(self):
+        
+        self.window.rowconfigure(self.number_of_frames, weight=1)
+        self.frames.append(Frame(master = self.window))
+        self.frames[self.number_of_frames].grid(row=self.number_of_frames, column=0, sticky="n")
+        
+        self.number_of_frames = self.number_of_frames + 1
     
         
 """
@@ -111,50 +139,27 @@ class Start_Page(I_Page):
         Ułożenie i wyswietlenie wszystkiego na stronie
         '''
         
-        # ----elementy w oknie dopasowują się do jego rozmiaru----
-        self.window.columnconfigure(0, weight=1)
-        for i in range(2):
-            self.window.rowconfigure(i, weight=1)
-        # --------------------------------------------------------
-        
-        # ---------------tytuł----------------
-        self.title_frame = Frame(master = self.window)
-        self.title_frame.grid(row=0, column=0, sticky="n")
+        self.make_frames(2)
 
-        title = Label(master=self.title_frame,
+        # ---------------tytuł----------------
+
+        title = Label(master=self.frames[0],
                       text="Rekomender", font=self.title_font)
         title.pack()
         # ------------------------------------
         # ------------przyciski------------
-        self.buttons_frame = Frame(master = self.window)
-        self.buttons_frame.grid(row=1, column=0, sticky="n")
         
-        self.button_login = Button( master = self.buttons_frame, width = self.button_size[0],
+        self.button_login = Button( master = self.frames[1], width = self.button_size[0],
             height = self.button_size[1], text="Wybierz użytkownika", font = self.button_font, 
-            command=(lambda: self.change_to_recommendation_page()))
+            command=(lambda: self.change_page(Recommendation_Page)))
         self.button_login.pack()
         
-        self.button_create_user = Button( master = self.buttons_frame, width = self.button_size[0],
+        self.button_create_user = Button( master = self.frames[1], width = self.button_size[0],
             height = self.button_size[1], text="Dodaj użytkownika", font = self.button_font, 
-            command=(lambda: self.change_to_create_user_page()))
+            command=(lambda: self.change_page(Create_User_Page)))
         self.button_create_user.pack()
         # ----------------------------------
 
-    def change_to_create_user_page(self):
-        '''
-        Zmień na stronę tworzenia urzytkownika
-        '''
-        
-        self.clear_window()
-        Create_User_Page(self.window)
-        
-    def change_to_recommendation_page(self):
-        '''
-        Zmień na stronę z rekomendacjami
-        '''
-        
-        self.clear_window()
-        Recommendation_Page(self.window)
 
 """
 Strona tworzenia urzytkownika
@@ -173,38 +178,30 @@ class Create_User_Page(I_Page):
         Ułożenie i wyswietlenie wszystkiego na stronie
         '''
         
-        # ----elementy w oknie dopasowują się do jego rozmiaru----
-        self.window.columnconfigure(0, weight=1)
-        for i in range(2):
-            self.window.rowconfigure(i, weight=1)
-        # --------------------------------------------------------
+        self.make_frames(3)
         
         # ---------------tytuł----------------
-        self.title_frame = Frame(master = self.window)
-        self.title_frame.grid(row=0, column=0, sticky="n")
 
-        title = Label(master=self.title_frame,
+        title = Label(master=self.frames[0],
                       text="Kreacja użytkownika", font=self.minor_title_font)
         title.pack()
         # ------------------------------------
         
-        # ------------przyciski------------
-        self.buttons_frame = Frame(master = self.window)
-        self.buttons_frame.grid(row=1, column=0, sticky="n")
+        # ---------------pola do wpisywania danych----------------
+
+        self.name_label = Label(master=self.frames[1],
+                      text="Podaj imię", font=self.normal_text_font)
+        self.name_label.pack()
+        self.name = ttk.Entry(master = self.frames[1])
+        self.name.pack()
+        # --------------------------------------------------------
         
-        self.button_go_back = Button( master = self.buttons_frame, width = self.button_size[0],
+        # ------------przyciski------------
+        self.button_go_back = Button( master = self.frames[2], width = self.button_size[0],
             height = self.button_size[1], text="Zatwierdź wybór", font = self.button_font, 
-            command=(lambda: self.change_to_start_page()))
+            command=(lambda: self.change_page(Start_Page)))
         self.button_go_back.pack()
         # ----------------------------------
-    
-    def change_to_start_page(self):
-        '''
-        Powrót do strony startowej
-        '''
-        
-        self.clear_window()
-        Start_Page(self.window)
 
 """
 Strona z rekomendacjami
@@ -223,38 +220,20 @@ class Recommendation_Page(I_Page):
         Ułożenie i wyswietlenie wszystkiego na stronie
         '''
         
-        # ----elementy w oknie dopasowują się do jego rozmiaru----
-        self.window.columnconfigure(0, weight=1)
-        for i in range(2):
-            self.window.rowconfigure(i, weight=1)
-        # --------------------------------------------------------
+        self.make_frames(2)
         
         # ---------------tytuł----------------
-        self.title_frame = Frame(master = self.window)
-        self.title_frame.grid(row=0, column=0, sticky="n")
-
-        title = Label(master=self.title_frame,
+        title = Label(master=self.frames[0],
                       text="Dieta dla ciebie!", font=self.minor_title_font)
         title.pack()
         # ------------------------------------
         
         # ------------przyciski------------
-        self.buttons_frame = Frame(master = self.window)
-        self.buttons_frame.grid(row=1, column=0, sticky="n")
-        
-        self.button_go_back = Button( master = self.buttons_frame, width = self.button_size[0],
+        self.button_go_back = Button( master = self.frames[1], width = self.button_size[0],
             height = self.button_size[1], text="Powrót do strony startowej", font = self.button_font, 
-            command=(lambda: self.change_to_start_page()))
+            command=(lambda: self.change_page(Start_Page)))
         self.button_go_back.pack()
         # ----------------------------------
-        
-    def change_to_start_page(self):
-        '''
-        Powrót do strony startowej
-        '''
-        
-        self.clear_window()
-        Start_Page(self.window)
         
         
 open_window = Main_Window(500, 580)
