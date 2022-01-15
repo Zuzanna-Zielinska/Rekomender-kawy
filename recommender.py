@@ -129,7 +129,7 @@ def hybri_calculate(df, category, user):
         tags = x['pref_count']
         if user_diets != np.NAN:
             sim_score = x[f'liked_sim_{cat}']
-            weight = 1.1 ** len(str(user_diets).split())
+            weight = 1.07 ** len(str(user_diets).split()) - 0.5
         else:
             sim_score = 0
             weight = 0
