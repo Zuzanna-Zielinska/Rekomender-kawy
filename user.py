@@ -30,6 +30,25 @@ def delete_user(user_id):
     df = df.loc[df['user_id'] != user_id]
     df.to_csv('db/users.csv', index=False)
 
+'''
+Funkcja zmieniająca dane użytkownika
+Przyjmuje:
+    user_id - id użytkownika
+    name - imie zmienione
+    surname - nazwisko zmienione
+    preferences - zmienione preferencje
+'''
+def change_user(user_id, **kwargs):
+    df = pd.read_csv('db/users.csv')
+    for key, value in kwargs.items():
+        if key == 'name':
+            df.loc[df['user_id'] == user_id, ['imie']] = value
+        if key == 'surname':
+            df.loc[df['user_id'] == user_id, ['nazwisko']] = value
+        if key == 'preferences':
+            df.loc[df['user_id'] == user_id, ['preferences']] = value
+    df.to_csv('db/users.csv', index=False)
 
-# delete_user(1)
+# delete_user(3)
 # create_user('adam', 'wojniak', 'angi cos ans')
+# change_user(1, name='Adam', surname='Woźniak', preferences='wegetariański średni')
