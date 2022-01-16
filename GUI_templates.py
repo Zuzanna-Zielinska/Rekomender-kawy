@@ -86,3 +86,11 @@ class I_Page():
         self.frames[self.number_of_frames].grid(row=self.number_of_frames, column=0, sticky="n")
         
         self.number_of_frames = self.number_of_frames + 1
+        
+class Drop_Down_Menu():
+    def __init__(self, window, frame, tag_table):
+        self.value = StringVar(window)
+        self.value.set(tag_table[-1])
+        self.menu = OptionMenu(frame, self.value, *tag_table)
+        self.menu.pack()
+        

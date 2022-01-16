@@ -22,8 +22,11 @@
 from tkinter import *
 from tkinter import ttk
 from typing import NewType
-from GUI_templates import I_Window, I_Page, Page, window
+from GUI_templates import I_Window, I_Page, Page, window, Drop_Down_Menu
     
+tag_meat_or_not = ["Vegan", "Wegetariański", "Mięsny"]
+tag_spiciness = ["ostry", "średni", "łagodny"]
+
 """
 Główne okno programu. Inicjuje stronę startową.
 
@@ -113,6 +116,20 @@ class Create_User_Page(I_Page):
         self.surname_label = ttk.Entry(master = self.frames[1])
         self.surname_label.pack()
         # --------------------------------------------------------
+        
+        # ---------------preferencje----------------
+        self.label = Label(master=self.frames[1],
+                      text="Wolisz dania łagodne, czy ostre?", font=self.normal_text_font)
+        self.label.pack()
+
+        Drop_Down_Menu(self.window, self.frames[1], tag_meat_or_not)
+        
+        self.label = Label(master=self.frames[1],
+                      text="Wolisz dania łagodne, czy ostre?", font=self.normal_text_font)
+        self.label.pack()
+
+        Drop_Down_Menu(self.window, self.frames[1], tag_spiciness)
+        # -------------------------------------------
         
         # ------------przyciski------------
         self.button_go_back = Button( master = self.frames[2], width = self.button_size[0],
