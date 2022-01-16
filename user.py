@@ -30,6 +30,17 @@ def delete_user(user_id):
     df = df.loc[df['user_id'] != user_id]
     df.to_csv('db/users.csv', index=False)
 
+def get_all_user_names():
+    df = pd.read_csv('db/users.csv')
+    list_of_names = []
+    
+    for i in df.user_id:
+        if type(df.imie[i-1]) == str and type(df.nazwisko[i-1]) == str:
+            name = df.imie[i-1]
+            name = name + " " + df.nazwisko[i-1]
+            list_of_names.append(name)
+            
+    return list_of_names
 
 # delete_user(1)
 # create_user('adam', 'wojniak', 'angi cos ans')

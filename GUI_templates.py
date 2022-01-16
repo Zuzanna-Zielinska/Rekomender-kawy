@@ -94,3 +94,6 @@ class Drop_Down_Menu():
         self.menu = OptionMenu(frame, self.value, *tag_table)
         self.menu.pack()
         
+    def get(self):
+        return self.value.get()
+        

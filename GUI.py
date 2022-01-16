@@ -25,7 +25,7 @@ from typing import NewType
 from GUI_templates import I_Window, I_Page, Page, window, Drop_Down_Menu
 import user
     
-tag_meat_or_not = ["Vegan", "Wegetariański", "Mięsny"]
+tag_meat_or_not = ["Vegan", "Wegetariański", "mięsny"]
 tag_spiciness = ["ostry", "średni", "łagodny"]
 
 """
@@ -69,14 +69,28 @@ class Start_Page(I_Page):
         # ------------przyciski------------
         self.button_login = Button( master = self.frames[1], width = self.button_size[0],
             height = self.button_size[1], text="Wybierz użytkownika", font = self.button_font, 
-            command=(lambda: self.change_page(Recommendation_Page)))
+            command=(lambda: self.change_page(Recommendation_Page, choose_user.get())))
         self.button_login.pack()
+        
+        choose_user = Drop_Down_Menu(self.window, self.frames[1], user.get_all_user_names())
         
         self.button_create_user = Button( master = self.frames[1], width = self.button_size[0],
             height = self.button_size[1], text="Dodaj użytkownika", font = self.button_font, 
             command=(lambda: self.change_page(Create_User_Page)))
         self.button_create_user.pack()
         # ----------------------------------
+        
+    def change_page(self, New_Page: Page, chosen_user = None):
+        '''
+        Przełączenie do innej strony
+        '''
+        
+        if chosen_user == None:
+            self.clear_window()
+            New_Page(self.window)
+        else:
+            self.clear_window()
+            New_Page(self.window, chosen_user)
 
 
 """
@@ -123,13 +137,13 @@ class Create_User_Page(I_Page):
                       text="Wolisz dania łagodne, czy ostre?", font=self.normal_text_font)
         self.label.pack()
 
-        Drop_Down_Menu(self.window, self.frames[1], tag_meat_or_not)
+        self.meat_or_not = Drop_Down_Menu(self.window, self.frames[1], tag_meat_or_not)
         
         self.label = Label(master=self.frames[1],
                       text="Wolisz dania łagodne, czy ostre?", font=self.normal_text_font)
         self.label.pack()
 
-        Drop_Down_Menu(self.window, self.frames[1], tag_spiciness)
+        self.spiciness = Drop_Down_Menu(self.window, self.frames[1], tag_spiciness)
         # -------------------------------------------
         
         # ------------przyciski------------
@@ -140,7 +154,19 @@ class Create_User_Page(I_Page):
         # ----------------------------------
         
     def add_user(self):
-        user.create_user(self.name.get(), self.surname.get(), "a")
+        #jeli preferencje to lista
+        # self.preferences = []
+        # self.preferences.append(self.spiciness.get())
+        # self.preferences.append(self.meat_or_not.get())
+        
+        #jeli preferencje to jeden string
+        self.preferences = self.spiciness.get() + " " + self.meat_or_not.get()
+        
+        user.create_user(self.name.get(), self.surname.get(), self.preferences)
+        
+    def change_page(self, New_Page):
+        self.add_user()
+        super().change_page(New_Page)
 
 """
 Strona z rekomendacjami
@@ -150,8 +176,12 @@ Przyjmuje:
 """      
 class Recommendation_Page(I_Page):
     
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs) #załadowanie initu z rodzica
+    def __init__(self,window: window, user):
+        self.window = window
+        self.number_of_frames = 0
+        self.style_table()
+        
+        self.user = user
         self.layout()
         
     def layout(self):
@@ -168,6 +198,9 @@ class Recommendation_Page(I_Page):
         # ------------------------------------
         
         # ---------------info użytkownika----------------
+        self.label = Label(master=self.frames[1],
+                      text="Imię:", font=self.normal_text_font)
+        self.label.pack()
         self.label = Label(master=self.frames[1],
                       text="Imię:", font=self.normal_text_font)
         self.label.pack()

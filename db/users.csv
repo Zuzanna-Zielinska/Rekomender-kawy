@@ -1,2 +1,12 @@
 user_id,imie,nazwisko,liked_diets,dislike_diets,preferences
-1,Piotr,Wojciechowski,1,,łagodny mięsny wegetariański średni
+1,Piotr,Wojciechowski,1.0,,łagodny mięsny wegetariański średni
+2,name1,sname1,,,"łagodny, Mięsny"
+3,name2,sname2,,,"ostry, Vegan"
+4,name3,sname3,,,"średni, Wegetariański"
+5,,,,,"łagodny, mięsny"
+6,,,,,łagodny mięsny
+7,,,,,łagodny mięsny
+8,,,,,łagodny mięsny
+9,,,,,łagodny mięsny
+10,,,,,łagodny mięsny
+11,,,,,łagodny mięsny
