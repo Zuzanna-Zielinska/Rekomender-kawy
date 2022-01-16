@@ -144,7 +144,7 @@ class Create_User_Page(I_Page):
         
     def add_user(self):
         '''
-        Zapisywanie warto
+        Zapisywanie wartosci podanych przez użytkownika
         '''
         self.preferences = self.spiciness.get() + " " + self.meat_or_not.get()
         user.create_user(self.name.get(), self.surname.get(), self.preferences)
@@ -154,7 +154,7 @@ class Create_User_Page(I_Page):
         super().change_page(New_Page)
 
 """
-Strona z rekomendacjami
+Strona z profilem użytkownika
 
 Przyjmuje:
     window - okno programu
@@ -231,7 +231,13 @@ class Recommendation_Page(I_Page):
         self.button_go_back.pack()
         # ----------------------------------
         
-        
+"""
+Strona z edycją użytkownika
+
+Przyjmuje:
+    window - okno programu
+    user_id - id użytkownika do zmiany (ten zaczynający się od 1)
+"""  
 class Edit_User_Page(Create_User_Page):
     
     def __init__(self,window: window, user_id):
@@ -258,7 +264,14 @@ class Edit_User_Page(Create_User_Page):
         self.add_user()
         
         super().change_page(New_Page)
-    
+
+"""
+Strona z rekomendacją diety
+
+Przyjmuje:
+    window - okno programu
+    user_id - id użytkownika do zmiany (ten zaczynający się od 1)
+"""  
 class Diet_Page(I_Page):
     
     def __init__(self,window: window, user_id):

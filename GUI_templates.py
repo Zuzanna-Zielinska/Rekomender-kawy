@@ -69,6 +69,9 @@ class I_Page():
             New_Page(self.window, chosen_user)
         
     def make_frames(self, n: int, col = 0):
+        '''
+        Robienie wielu framów na raz
+        '''
         
         self.frames = []
         self.number_of_frames = n
@@ -84,14 +87,7 @@ class I_Page():
             self.frames.append(Frame(master = self.window))
             self.frames[i].grid(row=i, column=col, sticky="n")
             
-    # def add_frame(self):
-        
-    #     self.window.rowconfigure(self.number_of_frames, weight=1)
-    #     self.frames.append(Frame(master = self.window))
-    #     self.frames[self.number_of_frames].grid(row=self.number_of_frames, column=0, sticky="n")
-        
-    #     self.number_of_frames = self.number_of_frames + 1
-        
+
 class Drop_Down_Menu():
     def __init__(self, window, frame, tag_table, start_value = -1):
         self.value = StringVar(window)
