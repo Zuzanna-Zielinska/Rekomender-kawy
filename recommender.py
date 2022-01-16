@@ -133,7 +133,7 @@ def hybri_calculate(df, category, user):
         else:
             sim_score = 0
             weight = 0
-        hybrid_score = (score / 10 * 3 + tags / 3 + sim_score * weight) / (4 + weight)
+        hybrid_score = (score / 10 * 3 + tags / 2 + sim_score * weight) / (4 + weight)
         return hybrid_score
 
     for cat in category:
