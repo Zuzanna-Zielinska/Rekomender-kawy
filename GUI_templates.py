@@ -46,6 +46,7 @@ class I_Page():
         self.normal_text_font = ["lucida", 12]
         
         self.button_size = [20, 0]
+        self.small_button_size = [0, 0]
         
     def clear_window(self):
         """
@@ -55,13 +56,17 @@ class I_Page():
         for child in self.window.winfo_children():
             child.destroy()
             
-    def change_page(self, New_Page: Page):
+    def change_page(self, New_Page: Page, chosen_user = None):
         '''
         Przełączenie do innej strony
         '''
         
-        self.clear_window()
-        New_Page(self.window)
+        if chosen_user == None:
+            self.clear_window()
+            New_Page(self.window)
+        else:
+            self.clear_window()
+            New_Page(self.window, chosen_user)
         
     def make_frames(self, n: int, col = 0):
         
@@ -88,12 +93,13 @@ class I_Page():
     #     self.number_of_frames = self.number_of_frames + 1
         
 class Drop_Down_Menu():
-    def __init__(self, window, frame, tag_table):
+    def __init__(self, window, frame, tag_table, start_value = -1):
         self.value = StringVar(window)
-        self.value.set(tag_table[-1])
+        self.value.set(tag_table[start_value])
         self.menu = OptionMenu(frame, self.value, *tag_table)
         self.menu.pack()
         
     def get(self):
         return self.value.get()
+    
         

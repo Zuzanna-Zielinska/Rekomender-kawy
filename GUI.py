@@ -22,6 +22,7 @@
 from tkinter import *
 from tkinter import ttk
 from typing import NewType
+import pandas as pd
 from GUI_templates import I_Window, I_Page, Page, window, Drop_Down_Menu
 import user
     
@@ -80,18 +81,6 @@ class Start_Page(I_Page):
         self.button_create_user.pack()
         # ----------------------------------
         
-    def change_page(self, New_Page: Page, chosen_user = None):
-        '''
-        Przełączenie do innej strony
-        '''
-        
-        if chosen_user == None:
-            self.clear_window()
-            New_Page(self.window)
-        else:
-            self.clear_window()
-            New_Page(self.window, chosen_user)
-
 
 """
 Strona tworzenia urzytkownika
@@ -134,7 +123,7 @@ class Create_User_Page(I_Page):
         
         # ---------------preferencje----------------
         self.label = Label(master=self.frames[1],
-                      text="Wolisz dania łagodne, czy ostre?", font=self.normal_text_font)
+                      text="Czy jesz dania mięsne?", font=self.normal_text_font)
         self.label.pack()
 
         self.meat_or_not = Drop_Down_Menu(self.window, self.frames[1], tag_meat_or_not)
@@ -154,14 +143,10 @@ class Create_User_Page(I_Page):
         # ----------------------------------
         
     def add_user(self):
-        #jeli preferencje to lista
-        # self.preferences = []
-        # self.preferences.append(self.spiciness.get())
-        # self.preferences.append(self.meat_or_not.get())
-        
-        #jeli preferencje to jeden string
+        '''
+        Zapisywanie warto
+        '''
         self.preferences = self.spiciness.get() + " " + self.meat_or_not.get()
-        
         user.create_user(self.name.get(), self.surname.get(), self.preferences)
         
     def change_page(self, New_Page):
@@ -176,12 +161,13 @@ Przyjmuje:
 """      
 class Recommendation_Page(I_Page):
     
-    def __init__(self,window: window, user):
+    def __init__(self,window: window, choosen_user):
         self.window = window
         self.number_of_frames = 0
         self.style_table()
         
-        self.user = user
+        self.user_id = user.search_for_user_name(choosen_user)
+        self.user_data = pd.read_csv('db/users.csv') 
         self.layout()
         
     def layout(self):
@@ -198,23 +184,47 @@ class Recommendation_Page(I_Page):
         # ------------------------------------
         
         # ---------------info użytkownika----------------
-        self.label = Label(master=self.frames[1],
+        self.inner_frame_right = Frame(master=self.frames[1])
+        self.inner_frame_right.grid(row=0, column=0, sticky="w")
+        
+        self.label = Label(master=self.inner_frame_right,
                       text="Imię:", font=self.normal_text_font)
         self.label.pack()
-        self.label = Label(master=self.frames[1],
-                      text="Imię:", font=self.normal_text_font)
+        self.label = Label(master=self.inner_frame_right,
+                      text=self.user_data.imie[self.user_id - 1], font=self.normal_text_font)
         self.label.pack()
         
-        self.label = Label(master=self.frames[1],
+        self.label = Label(master=self.inner_frame_right,
                       text="Nazwisko:", font=self.normal_text_font)
         self.label.pack()
+        self.label = Label(master=self.inner_frame_right,
+                      text=self.user_data.nazwisko[self.user_id - 1], font=self.normal_text_font)
+        self.label.pack()
         
-        self.label = Label(master=self.frames[1],
+        self.label = Label(master=self.inner_frame_right,
                       text="Preferencje:", font=self.normal_text_font)
+        self.label.pack()
+        self.label = Label(master=self.inner_frame_right,
+                      text=self.user_data.preferences[self.user_id - 1], font=self.normal_text_font)
         self.label.pack()
         # -----------------------------------------------
         
+        # ---------------przycisk edycji użytkownika----------------
+        self.inner_frame_right = Frame(master=self.frames[1])
+        self.inner_frame_right.grid(row=0, column=1, sticky="e")
+        
+        self.button_go_back = Button( master = self.inner_frame_right, width = self.small_button_size[0],
+            height = self.small_button_size[1], text="Edytuj", font = self.button_font, 
+            command=(lambda: self.change_page(Edit_User_Page, self.user_id)))
+        self.button_go_back.pack()
+        # ----------------------------------------------------------
+        
         # ------------przyciski------------
+        self.button_go_back = Button( master = self.frames[2], width = self.button_size[0],
+            height = self.button_size[1], text="Sprawdź dietę!", font = self.button_font, 
+            command=(lambda: self.change_page(Diet_Page, self.user_id)))
+        self.button_go_back.pack()
+        
         self.button_go_back = Button( master = self.frames[self.number_of_frames-1], width = self.button_size[0],
             height = self.button_size[1], text="Powrót do strony startowej", font = self.button_font, 
             command=(lambda: self.change_page(Start_Page)))
@@ -222,5 +232,57 @@ class Recommendation_Page(I_Page):
         # ----------------------------------
         
         
+class Edit_User_Page(Create_User_Page):
+    
+    def __init__(self,window: window, user_id):
+        self.window = window
+        self.number_of_frames = 0
+        self.style_table()
+        
+        self.user_id = user_id
+        self.user_data = pd.read_csv('db/users.csv') 
+        self.layout()
+        
+    def layout(self):
+        super().layout()
+        self.name.insert(0, self.user_data.imie[self.user_id-1])
+        self.surname.insert(0, self.user_data.nazwisko[self.user_id-1])
+        
+    def add_user(self):
+        self.preferences = self.spiciness.get() + " " + self.meat_or_not.get()
+        
+        user.create_user(self.name.get(), self.surname.get(), self.preferences)
+        
+    def change_page(self, New_Page):
+        user.delete_user(self.user_id-1)
+        self.add_user()
+        
+        super().change_page(New_Page)
+    
+class Diet_Page(I_Page):
+    
+    def __init__(self,window: window, user_id):
+        self.window = window
+        self.number_of_frames = 0
+        self.style_table()
+        
+        self.user_id = user_id
+        self.user_data = pd.read_csv('db/users.csv') 
+        self.layout()
+        
+    def layout(self):
+        '''
+        Ułożenie i wyswietlenie wszystkiego na stronie
+        '''
+        
+        self.make_frames(4)
+        
+        # ---------------tytuł----------------
+        title = Label(master=self.frames[0],
+                      text="Dieta", font=self.minor_title_font)
+        title.pack()
+        # ------------------------------------
+        
+
 open_window = Main_Window(500, 580)
 open_window.mainloop()

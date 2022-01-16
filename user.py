@@ -42,5 +42,19 @@ def get_all_user_names():
             
     return list_of_names
 
+def search_for_user_name(name_to_compare):
+
+    df = pd.read_csv('db/users.csv')    
+
+    for i in df.user_id:
+        if type(df.imie[i-1]) == str and type(df.nazwisko[i-1]) == str:
+            name = df.imie[i-1]
+            name = name + " " + df.nazwisko[i-1]
+            
+            if name_to_compare == name:
+                return i
+            
+    return 0 #jeśli id == 0, to jest błąd
+
 # delete_user(1)
 # create_user('adam', 'wojniak', 'angi cos ans')
