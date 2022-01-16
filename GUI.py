@@ -5,11 +5,11 @@
 #Zuzia: tutaj też bym dała pole wyboru użytkownika, tzn jest na to miejsce
 
 # TODO: create_user window
-# zrobić pole na podanie imienia i nazwiska
-# rozwijane menu z wyborem ostrości i tego czy jest się vege, wegan, czy nie wegan osobno te 2 rozwijane menu
+#   zrobić pole na podanie imienia i nazwiska
+#   rozwijane menu z wyborem ostrości i tego czy jest się vege, wegan, czy nie wegan osobno te 2 rozwijane menu
 # implementacja funkcji zapisujących to wszystko do df w user.py tu tylko wywołania
 # zapis danych do pliku csv, który wstępnie definiuje w user.py
-# po zatwierdzeniu wracamy do main window
+#   po zatwierdzeniu wracamy do main window
 
 # TODO: Recommendation window
 # okno w którym będziemy wyświetlać rekomendację oraz możliwość likowania diet i dislikowania
@@ -23,6 +23,7 @@ from tkinter import *
 from tkinter import ttk
 from typing import NewType
 from GUI_templates import I_Window, I_Page, Page, window, Drop_Down_Menu
+import user
     
 tag_meat_or_not = ["Vegan", "Wegetariański", "Mięsny"]
 tag_spiciness = ["ostry", "średni", "łagodny"]
@@ -113,8 +114,8 @@ class Create_User_Page(I_Page):
         self.surname_label = Label(master=self.frames[1],
                       text="Podaj nazwisko", font=self.normal_text_font)
         self.surname_label.pack()
-        self.surname_label = ttk.Entry(master = self.frames[1])
-        self.surname_label.pack()
+        self.surname = ttk.Entry(master = self.frames[1])
+        self.surname.pack()
         # --------------------------------------------------------
         
         # ---------------preferencje----------------
@@ -132,11 +133,14 @@ class Create_User_Page(I_Page):
         # -------------------------------------------
         
         # ------------przyciski------------
-        self.button_go_back = Button( master = self.frames[2], width = self.button_size[0],
+        self.button_go_back = Button( master = self.frames[self.number_of_frames-1], width = self.button_size[0],
             height = self.button_size[1], text="Zatwierdź wybór", font = self.button_font, 
             command=(lambda: self.change_page(Start_Page)))
         self.button_go_back.pack()
         # ----------------------------------
+        
+    def add_user(self):
+        user.create_user(self.name.get(), self.surname.get(), "a")
 
 """
 Strona z rekomendacjami
@@ -155,16 +159,30 @@ class Recommendation_Page(I_Page):
         Ułożenie i wyswietlenie wszystkiego na stronie
         '''
         
-        self.make_frames(2)
+        self.make_frames(4)
         
         # ---------------tytuł----------------
         title = Label(master=self.frames[0],
-                      text="Dieta dla ciebie!", font=self.minor_title_font)
+                      text="Profil", font=self.minor_title_font)
         title.pack()
         # ------------------------------------
         
+        # ---------------info użytkownika----------------
+        self.label = Label(master=self.frames[1],
+                      text="Imię:", font=self.normal_text_font)
+        self.label.pack()
+        
+        self.label = Label(master=self.frames[1],
+                      text="Nazwisko:", font=self.normal_text_font)
+        self.label.pack()
+        
+        self.label = Label(master=self.frames[1],
+                      text="Preferencje:", font=self.normal_text_font)
+        self.label.pack()
+        # -----------------------------------------------
+        
         # ------------przyciski------------
-        self.button_go_back = Button( master = self.frames[1], width = self.button_size[0],
+        self.button_go_back = Button( master = self.frames[self.number_of_frames-1], width = self.button_size[0],
             height = self.button_size[1], text="Powrót do strony startowej", font = self.button_font, 
             command=(lambda: self.change_page(Start_Page)))
         self.button_go_back.pack()

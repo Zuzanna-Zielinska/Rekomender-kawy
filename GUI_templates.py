@@ -63,13 +63,13 @@ class I_Page():
         self.clear_window()
         New_Page(self.window)
         
-    def make_frames(self, n: int):
+    def make_frames(self, n: int, col = 0):
         
         self.frames = []
         self.number_of_frames = n
         
         # ----elementy w oknie dopasowują się do jego rozmiaru----
-        self.window.columnconfigure(0, weight=1)
+        self.window.columnconfigure(col, weight=1)
         for i in range(2):
             self.window.rowconfigure(i, weight=1)
         # --------------------------------------------------------
@@ -77,15 +77,15 @@ class I_Page():
         for i in range(n):
             
             self.frames.append(Frame(master = self.window))
-            self.frames[i].grid(row=i, column=0, sticky="n")
+            self.frames[i].grid(row=i, column=col, sticky="n")
             
-    def add_frame(self):
+    # def add_frame(self):
         
-        self.window.rowconfigure(self.number_of_frames, weight=1)
-        self.frames.append(Frame(master = self.window))
-        self.frames[self.number_of_frames].grid(row=self.number_of_frames, column=0, sticky="n")
+    #     self.window.rowconfigure(self.number_of_frames, weight=1)
+    #     self.frames.append(Frame(master = self.window))
+    #     self.frames[self.number_of_frames].grid(row=self.number_of_frames, column=0, sticky="n")
         
-        self.number_of_frames = self.number_of_frames + 1
+    #     self.number_of_frames = self.number_of_frames + 1
         
 class Drop_Down_Menu():
     def __init__(self, window, frame, tag_table):
