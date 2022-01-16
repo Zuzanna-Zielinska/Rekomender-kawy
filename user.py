@@ -51,4 +51,4 @@ def change_user(user_id, **kwargs):
 
 # delete_user(3)
 # create_user('adam', 'wojniak', 'angi cos ans')
-# change_user(1, name='Adam', surname='Woźniak', preferences='wegetariański średni')
+# change_user(2, name='Adam', surname='Woźniak', preferences='wegetariański średni')
