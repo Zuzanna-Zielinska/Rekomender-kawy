@@ -25,6 +25,7 @@ from typing import NewType
 import pandas as pd
 from GUI_templates import I_Window, I_Page, Page, window, Drop_Down_Menu
 import user
+
     
 tag_meat_or_not = ["Vegan", "Wegetariański", "mięsny"]
 tag_spiciness = ["ostry", "średni", "łagodny"]
@@ -166,7 +167,10 @@ class Recommendation_Page(I_Page):
         self.number_of_frames = 0
         self.style_table()
         
-        self.user_id = user.search_for_user_name(choosen_user)
+        if type(choosen_user) == str:
+            self.user_id = user.search_for_user_name(choosen_user)
+        else:
+            self.user_id = choosen_user
         self.user_data = pd.read_csv('db/users.csv') 
         self.layout()
         
@@ -288,7 +292,7 @@ class Diet_Page(I_Page):
         Ułożenie i wyswietlenie wszystkiego na stronie
         '''
         
-        self.make_frames(4)
+        self.make_frames(8)
         
         # ---------------tytuł----------------
         title = Label(master=self.frames[0],
@@ -296,6 +300,69 @@ class Diet_Page(I_Page):
         title.pack()
         # ------------------------------------
         
+        # ---------------preferencje----------------
+        self.label = Label(master=self.frames[1],
+                      text="Śniadanie", font=self.normal_text_font)
+        self.label.pack()
+        self.label = Label(master=self.frames[2],
+                      text="get_recommendation", font=self.normal_text_font)
+        self.label.grid(row=0, column=1)
+
+        self.label = Label(master=self.frames[3],
+                      text="Obiad", font=self.normal_text_font)
+        self.label.pack()
+        self.label = Label(master=self.frames[4],
+                      text="get_recommendation", font=self.normal_text_font)
+        self.label.grid(row=0, column=1)
+
+        self.label = Label(master=self.frames[5],
+                      text="Deser", font=self.normal_text_font)
+        self.label.pack()
+        self.label = Label(master=self.frames[6],
+                      text="get_recommendation", font=self.normal_text_font)
+        self.label.grid(row=0, column=1)
+        # -------------------------------------------
+        
+        # ------------przyciski------------
+        #polubienie sniadań
+        self.button_dislike1 = Button( master = self.frames[2], width = self.like_button_size[0],
+            height = self.like_button_size[1], text="dislike", font = self.like_button_font, 
+            )
+        self.button_dislike1.grid(row=0, column=0)
+        
+        self.button_like1 = Button( master = self.frames[2], width = self.like_button_size[0],
+            height = self.like_button_size[1], text="like", font = self.like_button_font, 
+            )
+        self.button_like1.grid(row=0, column=2)
+        
+        #polubienie obiadów
+        self.button_dislike1 = Button( master = self.frames[4], width = self.like_button_size[0],
+            height = self.like_button_size[1], text="dislike", font = self.like_button_font, 
+            )
+        self.button_dislike1.grid(row=0, column=0)
+        
+        self.button_like1 = Button( master = self.frames[4], width = self.like_button_size[0],
+            height = self.like_button_size[1], text="like", font = self.like_button_font, 
+            )
+        self.button_like1.grid(row=0, column=2)
+        
+        #polubienie deserów
+        self.button_dislike1 = Button( master = self.frames[6], width = self.like_button_size[0],
+            height = self.like_button_size[1], text="dislike", font = self.like_button_font, 
+            )
+        self.button_dislike1.grid(row=0, column=0)
+        
+        self.button_like1 = Button( master = self.frames[6], width = self.like_button_size[0],
+            height = self.like_button_size[1], text="like", font = self.like_button_font, 
+            )
+        self.button_like1.grid(row=0, column=2)
+        
+        #przycisk powrotu
+        self.button_go_back = Button( master = self.frames[self.number_of_frames-1], width = self.button_size[0],
+            height = self.button_size[1], text="Powrót do profilu", font = self.button_font, 
+            )
+        self.button_go_back.pack()
+        # ----------------------------------
 
 open_window = Main_Window(500, 580)
 open_window.mainloop()

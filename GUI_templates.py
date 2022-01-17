@@ -43,10 +43,12 @@ class I_Page():
         self.title_font = ["lucida", 40]
         self.minor_title_font = ["lucida", 30] 
         self.button_font = ["lucida", 20]
+        self.like_button_font = ["lucida", 12]
         self.normal_text_font = ["lucida", 12]
         
         self.button_size = [20, 0]
         self.small_button_size = [0, 0]
+        self.like_button_size = [0, 0]
         
     def clear_window(self):
         """
