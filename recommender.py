@@ -72,7 +72,7 @@ def pref_rec(df, user):
 
     def bonus_pref(x, user_pref=user_pref):
         counter = 0
-        for pref in user_pref[0].split(' '):
+        for pref in str(user_pref.values).split(' '):
             if pref in x['tager'].split(' '):
                 counter += 1
         return counter
@@ -89,11 +89,11 @@ Przyjmuje:
     category - aktualna kategoria dania
 '''
 def sim_scoring(df, user, diets_df, category):
-    if user.liked_diets[0] != np.NAN:
+    if not user.liked_diets.isnull().any():
         cos_sim = create_coin_sim(df)
         indices_from_food_id = pd.Series(df.index, index=df['food_id'])
 
-        diet_ids = user['liked_diets'][0].split()
+        diet_ids = str(user['liked_diets'].values).split()
         for i in diet_ids:
             diet_ids.append(int(diet_ids.pop(0)))
         diet = diets_df.loc[diets_df['diet_id'].isin(diet_ids).any() and diets_df['user_id'] == user['user_id'][0]]
@@ -121,15 +121,14 @@ Przyjmuje:
 '''
 def hybri_calculate(df, category, user):
     user_diets = user['liked_diets']
-    user_diets = user_diets.values
     cat = np.NAN
 
     def hybrid_scoring(x, user_diets=user_diets, category=cat):
         score = x['score']
         tags = x['pref_count']
-        if user_diets != np.NAN:
+        if not user_diets.isnull().any():
             sim_score = x[f'liked_sim_{cat}']
-            weight = 1.07 ** len(str(user_diets).split()) - 0.5
+            weight = 1.07 ** len(str(user_diets.values).split()) - 0.5
         else:
             sim_score = 0
             weight = 0
@@ -230,21 +229,3 @@ def get_recommendation(df_list, user_df, user_id, diets_df, kcal_limit):
         i -= 1
 
     return food_chooser(recomendations, kcal_limit)
-
-'''
-Funkcja zapisująca polubione diety
-    Przyjmuje:
-    like_type - Wartość logiczna  True lub False zależnie czy jest to polubienie czy niepolubienie
-    user_id - id aktywnego użytkownika
-    food_list - lista potraw zarekomendowanych
-'''
-def like_dislike_diet(like_type, user_id, food_list):
-    pass
-
-# df1 = pd.read_csv('db/sniadania_database.csv')
-# df2 = pd.read_csv('db/dania_glowne_database.csv')
-# df3 = pd.read_csv('db/zupy_database.csv')
-# users_df = pd.read_csv('db/users.csv')
-# liked_diet_df = pd.read_csv('db/liked_diets.csv')
-# df_ls = [df1, df2, df3]
-# z = get_recommendation(df_ls, users_df, 1, liked_diet_df, 1500)
