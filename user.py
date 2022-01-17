@@ -1,6 +1,5 @@
 import pandas as pd
 import numpy as np
-from recommender import *
 # liked_diets i disliked_diets id diety z tabeli diet, które będziemy w df zapisywać już w recommender window do implementacji
 # preferences dane podane przy zakładaniu konta w gui ten df będzie tworzony w create_user window
 
@@ -138,15 +137,3 @@ def like_dislike_diet(like_type, user_id, food_list):
     elif not like_type:
         save_liked_to_user('dislike_diets', diet_id, user_id)
         df.to_csv('db/unliked_diets.csv', index=False)
-
-# delete_user(3)
-# create_user('adam', 'wojniak', 'angi cos ans')
-# change_user(2, name='Adam', surname='Woźniak', preferences='wegetariański średni')
-# df1 = pd.read_csv('db/sniadania_database.csv')
-# df2 = pd.read_csv('db/dania_glowne_database.csv')
-# df3 = pd.read_csv('db/zupy_database.csv')
-# users_df = pd.read_csv('db/users.csv')
-# liked_diet_df = pd.read_csv('db/liked_diets.csv')
-# df_ls = [df1, df2, df3]
-# z = get_recommendation(df_ls, users_df, 2, liked_diet_df, 1500)
-# like_dislike_diet(True, 2, z[0])

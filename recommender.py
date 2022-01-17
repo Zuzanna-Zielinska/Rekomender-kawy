@@ -5,21 +5,6 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
 '''
-Funkcja robocza do usunięcia na koniec projektu
-
-Przyjmuje:
-    df - df z potrawami
-    path - ścieżkę zapisu pliku
-'''
-def tag_transformer(df, path):
-    for i, row in df.iterrows():
-        df.loc[i, 'tags'] = f'{row.tag_1}, {row.tag_2}'
-    df.pop('Unnamed: 0')
-    df.pop('tag_1')
-    df.pop('tag_2')
-    df.to_csv(path)
-
-'''
 Funkcja tworząca tagi oddzielone spacją od siebie, wymagają tego funkcje używane w programie
 
 Przyjmuje:
@@ -72,7 +57,7 @@ def pref_rec(df, user):
 
     def bonus_pref(x, user_pref=user_pref):
         counter = 0
-        for pref in str(user_pref.values).split(' '):
+        for pref in str(user_pref.values[0]).split(' '):
             if pref in x['tager'].split(' '):
                 counter += 1
         return counter
