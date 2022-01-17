@@ -231,13 +231,20 @@ def get_recommendation(df_list, user_df, user_id, diets_df, kcal_limit):
 
     return food_chooser(recomendations, kcal_limit)
 
+'''
+Funkcja zapisująca polubione diety
+    Przyjmuje:
+    like_type - Wartość logiczna  True lub False zależnie czy jest to polubienie czy niepolubienie
+    user_id - id aktywnego użytkownika
+    food_list - lista potraw zarekomendowanych
+'''
+def like_dislike_diet(like_type, user_id, food_list):
+    pass
 
-df1 = pd.read_csv('db/sniadania_database.csv')
-df2 = pd.read_csv('db/dania_glowne_database.csv')
-df3 = pd.read_csv('db/zupy_database.csv')
-users_df = pd.read_csv('db/users.csv')
-liked_diet_df = pd.read_csv('db/liked_diets.csv')
-df_ls = [df1, df2, df3]
-z = get_recommendation(df_ls, users_df, 1, liked_diet_df, 1500)
-
-print(z[0][1])
+# df1 = pd.read_csv('db/sniadania_database.csv')
+# df2 = pd.read_csv('db/dania_glowne_database.csv')
+# df3 = pd.read_csv('db/zupy_database.csv')
+# users_df = pd.read_csv('db/users.csv')
+# liked_diet_df = pd.read_csv('db/liked_diets.csv')
+# df_ls = [df1, df2, df3]
+# z = get_recommendation(df_ls, users_df, 1, liked_diet_df, 1500)
