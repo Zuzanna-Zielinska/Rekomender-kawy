@@ -34,6 +34,7 @@ def create_user(imie, nazwisko, preferencje):
     new_idx = idx_finder(df, 'user_id')
     new_user = {'user_id': new_idx, 'imie': imie, 'nazwisko': nazwisko, 'liked_diets': np.NAN, 'dislike_diets': np.NAN, 'preferences': preferencje}
     df = df.append(new_user, ignore_index=True)
+    df.sort_values('user_id')
     df.to_csv('db/users.csv', index=False)
 
 '''
@@ -69,12 +70,14 @@ def change_user(user_id, **kwargs):
 def get_all_user_names():
     df = pd.read_csv('db/users.csv')
     list_of_names = []
-    
-    for i in df.user_id:
-        if type(df.imie[i-1]) == str and type(df.nazwisko[i-1]) == str:
-            name = df.imie[i-1]
-            name = name + " " + df.nazwisko[i-1]
-            list_of_names.append(name)
+    if df.size == 0:
+        return ["Brak użytkowników"]
+    else:
+        for i in df.user_id:
+            if type(df.imie[i-1]) == str and type(df.nazwisko[i-1]) == str:
+                name = df.imie[i-1]
+                name = name + " " + df.nazwisko[i-1]
+                list_of_names.append(name)
             
     return list_of_names
 

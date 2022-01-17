@@ -93,9 +93,9 @@ def sim_scoring(df, user, diets_df, category):
         cos_sim = create_coin_sim(df)
         indices_from_food_id = pd.Series(df.index, index=df['food_id'])
 
-        diet_ids = str(user['liked_diets'].values).split()
+        diet_ids = str(user['liked_diets'].values[0]).split()
         for i in diet_ids:
-            diet_ids.append(int(diet_ids.pop(0)))
+            diet_ids.append(int(float(diet_ids.pop(0))))
         diet = diets_df.loc[diets_df['diet_id'].isin(diet_ids).any() and diets_df['user_id'] == user['user_id'][0]]
 
         for cat in category:
