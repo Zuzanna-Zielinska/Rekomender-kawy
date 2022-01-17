@@ -392,11 +392,13 @@ class Diet_Page(I_Page):
         self.button_dislike1 = Button( master = self.frames[self.number_of_frames-2], width = self.like_button_size[0],
             height = self.like_button_size[1], text="dislike", font = self.like_button_font, 
             command = lambda: self.set_like(0))
+
         self.button_dislike1.grid(row=0, column=0)
         
         self.button_like1 = Button( master = self.frames[self.number_of_frames-2], width = self.like_button_size[0],
             height = self.like_button_size[1], text="like", font = self.like_button_font, 
             command = lambda: self.set_like(1))
+
         self.button_like1.grid(row=0, column=1)
         
         #przycisk powrotu
