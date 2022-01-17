@@ -264,9 +264,7 @@ class Edit_User_Page(Create_User_Page):
         user.create_user(self.name.get(), self.surname.get(), self.preferences)
         
     def change_page(self, New_Page):
-        user.delete_user(self.user_id-1)
-        self.add_user()
-        
+        user.delete_user(self.user_id)
         super().change_page(New_Page)
 
 """
