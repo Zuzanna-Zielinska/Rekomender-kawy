@@ -292,6 +292,7 @@ class Diet_Page(I_Page):
         
         self.kcal_limit = int(user_id[1])
         self.data_base(user_id[0])
+        self.is_liked = 2 #like - 1, dislike - 0, brak interakcji - 2
         
         self.layout()
         
@@ -390,12 +391,12 @@ class Diet_Page(I_Page):
         #polubienie
         self.button_dislike1 = Button( master = self.frames[self.number_of_frames-2], width = self.like_button_size[0],
             height = self.like_button_size[1], text="dislike", font = self.like_button_font, 
-            command = lambda: re.like_dislike_diet(False, self.user_id, self.recommend))
+            command = lambda: self.set_like(0))
         self.button_dislike1.grid(row=0, column=0)
         
         self.button_like1 = Button( master = self.frames[self.number_of_frames-2], width = self.like_button_size[0],
             height = self.like_button_size[1], text="like", font = self.like_button_font, 
-            command = lambda: re.like_dislike_diet(True, self.user_id, self.recommend))
+            command = lambda: self.set_like(1))
         self.button_like1.grid(row=0, column=1)
         
         #przycisk powrotu
@@ -405,5 +406,30 @@ class Diet_Page(I_Page):
         self.button_go_back.pack()
         # ----------------------------------
 
+    def set_like(self, a):
+        if a == 2:
+            self.is_liked = 2
+        elif a == 0:
+            self.is_liked = 0
+        elif a == 1:
+            self.is_liked = 1
+
+    def do_like(self):
+        if self.is_liked == 2:
+            return None
+        elif self.is_liked == 0:
+            return False
+        elif self.is_liked == 1:
+            return True
+    
+    def change_page(self, New_Page, chosen_user = None):
+        
+        is_liked = self.do_like()
+        if is_liked != None:
+            re.like_dislike_diet(is_liked, self.user_id, self.recommend)
+        
+        super().change_page(New_Page)
+        
+        
 open_window = Main_Window(500, 580)
 open_window.mainloop()
