@@ -306,7 +306,7 @@ class Diet_Page(I_Page):
         Ułożenie i wyswietlenie wszystkiego na stronie
         '''
         
-        self.make_frames(10)
+        self.make_frames(11)
         
         # ---------------tytuł----------------
         title = Label(master=self.frames[0],
@@ -322,12 +322,12 @@ class Diet_Page(I_Page):
         self.label = Label(master=self.frames[2],
                       text= "{0} kcal, ".format(self.recommend[0]['kcal']), 
                       font=self.normal_text_font)
-        self.label.grid(row=0, column=1)
+        self.label.grid(row=0, column=0)
         
         self.label = Label(master=self.frames[2],
                       text= "{0:.3f} trafności".format(self.recommend[0]['hybrid_score_śniadanie']), 
                       font=self.normal_text_font)
-        self.label.grid(row=0, column=2)
+        self.label.grid(row=0, column=1)
         # ----------------------------------------
         
         # ---------------zupa------------------
@@ -338,12 +338,12 @@ class Diet_Page(I_Page):
         self.label = Label(master=self.frames[4],
                       text= "{0} kcal, ".format(self.recommend[3]['kcal']), 
                       font=self.normal_text_font)
-        self.label.grid(row=0, column=1)
+        self.label.grid(row=0, column=0)
         
         self.label = Label(master=self.frames[4],
                       text= "{0:.3f} trafności".format(self.recommend[3]['hybrid_score_zupa']), 
                       font=self.normal_text_font)
-        self.label.grid(row=0, column=2)
+        self.label.grid(row=0, column=1)
         # --------------------------------------
         
         # ---------------drugie danie------------------
@@ -354,12 +354,12 @@ class Diet_Page(I_Page):
         self.label = Label(master=self.frames[6],
                       text= "{0} kcal, ".format(self.recommend[2]['kcal']), 
                       font=self.normal_text_font)
-        self.label.grid(row=0, column=1)
+        self.label.grid(row=0, column=0)
         
         self.label = Label(master=self.frames[6],
                       text= "{0:.3f} trafności".format(self.recommend[2]['hybrid_score_obiad']), 
                       font=self.normal_text_font)
-        self.label.grid(row=0, column=2)
+        self.label.grid(row=0, column=1)
         # ---------------------------------------------
         
         # ---------------kolacja------------------
@@ -370,58 +370,25 @@ class Diet_Page(I_Page):
         self.label = Label(master=self.frames[8],
                       text= "{0} kcal, ".format(self.recommend[1]['kcal']), 
                       font=self.normal_text_font)
-        self.label.grid(row=0, column=1)
+        self.label.grid(row=0, column=0)
         
         self.label = Label(master=self.frames[8],
                       text= "{0:.3f} trafności".format(self.recommend[1]['hybrid_score_kolacja']), 
                       font=self.normal_text_font)
-        self.label.grid(row=0, column=2)
+        self.label.grid(row=0, column=1)
         # ----------------------------------------
         
         # ------------przyciski------------
-        #polubienie sniadań
-        self.button_dislike1 = Button( master = self.frames[2], width = self.like_button_size[0],
+        #polubienie
+        self.button_dislike1 = Button( master = self.frames[self.number_of_frames-2], width = self.like_button_size[0],
             height = self.like_button_size[1], text="dislike", font = self.like_button_font, 
-            command = lambda: re.like_dislike_diet(False, self.user_id, self.recommend[0]))
+            command = lambda: re.like_dislike_diet(False, self.user_id, self.recommend))
         self.button_dislike1.grid(row=0, column=0)
         
-        self.button_like1 = Button( master = self.frames[2], width = self.like_button_size[0],
+        self.button_like1 = Button( master = self.frames[self.number_of_frames-2], width = self.like_button_size[0],
             height = self.like_button_size[1], text="like", font = self.like_button_font, 
-            )
-        self.button_like1.grid(row=0, column=3)
-        
-        #polubienie obiadów
-        self.button_dislike1 = Button( master = self.frames[4], width = self.like_button_size[0],
-            height = self.like_button_size[1], text="dislike", font = self.like_button_font, 
-            )
-        self.button_dislike1.grid(row=0, column=0)
-        
-        self.button_like1 = Button( master = self.frames[4], width = self.like_button_size[0],
-            height = self.like_button_size[1], text="like", font = self.like_button_font, 
-            )
-        self.button_like1.grid(row=0, column=3)
-        
-        #polubienie deserów
-        self.button_dislike1 = Button( master = self.frames[6], width = self.like_button_size[0],
-            height = self.like_button_size[1], text="dislike", font = self.like_button_font, 
-            )
-        self.button_dislike1.grid(row=0, column=0)
-        
-        self.button_like1 = Button( master = self.frames[6], width = self.like_button_size[0],
-            height = self.like_button_size[1], text="like", font = self.like_button_font, 
-            )
-        self.button_like1.grid(row=0, column=3)
-        
-        #polubienie deserów
-        self.button_dislike1 = Button( master = self.frames[8], width = self.like_button_size[0],
-            height = self.like_button_size[1], text="dislike", font = self.like_button_font, 
-            )
-        self.button_dislike1.grid(row=0, column=0)
-        
-        self.button_like1 = Button( master = self.frames[8], width = self.like_button_size[0],
-            height = self.like_button_size[1], text="like", font = self.like_button_font, 
-            )
-        self.button_like1.grid(row=0, column=3)
+            command = lambda: re.like_dislike_diet(True, self.user_id, self.recommend))
+        self.button_like1.grid(row=0, column=1)
         
         #przycisk powrotu
         self.button_go_back = Button( master = self.frames[self.number_of_frames-1], width = self.button_size[0],
