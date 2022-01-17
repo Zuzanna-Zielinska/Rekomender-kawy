@@ -358,7 +358,7 @@ class Diet_Page(I_Page):
         #przycisk powrotu
         self.button_go_back = Button( master = self.frames[self.number_of_frames-1], width = self.button_size[0],
             height = self.button_size[1], text="Powrót do profilu", font = self.button_font, 
-            )
+            command = lambda: self.change_page(Recommendation_Page, self.user_id))
         self.button_go_back.pack()
         # ----------------------------------
 
