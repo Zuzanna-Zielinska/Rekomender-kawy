@@ -29,8 +29,3 @@ def delete_user(user_id):
     df = pd.read_csv('db/users.csv')
     df = df.loc[df['user_id'] != user_id]
     df.to_csv('db/users.csv', index=False)
-
-
-
-# delete_user(1)
-# create_user('adam', 'wojniak', 'angi cos ans')
