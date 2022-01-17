@@ -212,6 +212,13 @@ class Recommendation_Page(I_Page):
         self.label = Label(master=self.inner_frame_right,
                       text=self.user_data.preferences[self.user_id - 1], font=self.normal_text_font)
         self.label.pack()
+        
+        self.label = Label(master=self.inner_frame_right,
+                      text="Dzienny limit kalorii:", font=self.normal_text_font)
+        self.label.pack()
+        self.kcal = ttk.Entry(master = self.inner_frame_right)
+        self.kcal.insert(0, 1500)
+        self.kcal.pack()
         # -----------------------------------------------
         
         # ---------------przycisk edycji użytkownika----------------
@@ -227,7 +234,7 @@ class Recommendation_Page(I_Page):
         # ------------przyciski------------
         self.button_go_back = Button( master = self.frames[2], width = self.button_size[0],
             height = self.button_size[1], text="Sprawdź dietę!", font = self.button_font, 
-            command=(lambda: self.change_page(Diet_Page, self.user_id)))
+            command=(lambda: self.change_page(Diet_Page, [self.user_id, self.kcal.get()])))
         self.button_go_back.pack()
         
         self.button_go_back = Button( master = self.frames[self.number_of_frames-1], width = self.button_size[0],
@@ -235,6 +242,7 @@ class Recommendation_Page(I_Page):
             command=(lambda: self.change_page(Start_Page)))
         self.button_go_back.pack()
         # ----------------------------------
+        
         
 """
 Strona z edycją użytkownika
@@ -273,7 +281,7 @@ Strona z rekomendacją diety
 
 Przyjmuje:
     window - okno programu
-    user_id - id użytkownika do zmiany (ten zaczynający się od 1)
+    user_id - [id użytkownika do zmiany (ten zaczynający się od 1), limit kalorii]
 """  
 class Diet_Page(I_Page):
     
@@ -282,15 +290,15 @@ class Diet_Page(I_Page):
         self.number_of_frames = 0
         self.style_table()
         
-        self.data_base(user_id)
-        
+        self.kcal_limit = int(user_id[1])
+        self.data_base(user_id[0])
         
         self.layout()
         
     def data_base(self, user_id):
         self.user_id = user_id
         self.user_data = pd.read_csv('db/users.csv')
-        self.kcal_limit = 40
+        
 
         self.breakfast_data = pd.read_csv('db/sniadania_database.csv')
         self.dinner_data = pd.read_csv('db/dania_glowne_database.csv') 
