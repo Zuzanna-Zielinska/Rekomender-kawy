@@ -72,16 +72,24 @@ class Start_Page(I_Page):
         # ------------przyciski------------
         self.button_login = Button( master = self.frames[1], width = self.button_size[0],
             height = self.button_size[1], text="Wybierz użytkownika", font = self.button_font, 
-            command=(lambda: self.change_page(Recommendation_Page, choose_user.get())))
+            command=(lambda: self.change_page(Recommendation_Page, self.choose_user.get(), True)))
         self.button_login.pack()
         
-        choose_user = Drop_Down_Menu(self.window, self.frames[1], user.get_all_user_names())
+        self.choose_user = Drop_Down_Menu(self.window, self.frames[1], user.get_all_user_names())
         
         self.button_create_user = Button( master = self.frames[1], width = self.button_size[0],
             height = self.button_size[1], text="Dodaj użytkownika", font = self.button_font, 
             command=(lambda: self.change_page(Create_User_Page)))
         self.button_create_user.pack()
         # ----------------------------------
+        
+    def change_page(self, New_Page, chosen_user = None, activate_if = False):
+        
+        if self.choose_user.get() != "Brak użytkowników" and activate_if == True:
+            super().change_page(New_Page, chosen_user)
+        elif activate_if == False:
+            super().change_page(New_Page, chosen_user)
+        
         
 
 """
@@ -428,9 +436,9 @@ class Diet_Page(I_Page):
         
         is_liked = self.do_like()
         if is_liked != None:
-            re.like_dislike_diet(is_liked, self.user_id, self.recommend)
+            user.like_dislike_diet(is_liked, self.user_id, self.recommend)
         
-        super().change_page(New_Page)
+        super().change_page(New_Page, chosen_user)
         
         
 open_window = Main_Window(500, 580)
