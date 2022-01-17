@@ -43,9 +43,12 @@ class I_Page():
         self.title_font = ["lucida", 40]
         self.minor_title_font = ["lucida", 30] 
         self.button_font = ["lucida", 20]
+        self.like_button_font = ["lucida", 12]
         self.normal_text_font = ["lucida", 12]
         
         self.button_size = [20, 0]
+        self.small_button_size = [0, 0]
+        self.like_button_size = [0, 0]
         
     def clear_window(self):
         """
@@ -55,15 +58,22 @@ class I_Page():
         for child in self.window.winfo_children():
             child.destroy()
             
-    def change_page(self, New_Page: Page):
+    def change_page(self, New_Page: Page, chosen_user = None):
         '''
         Przełączenie do innej strony
         '''
         
-        self.clear_window()
-        New_Page(self.window)
+        if chosen_user == None:
+            self.clear_window()
+            New_Page(self.window)
+        else:
+            self.clear_window()
+            New_Page(self.window, chosen_user)
         
     def make_frames(self, n: int, col = 0):
+        '''
+        Robienie wielu framów na raz
+        '''
         
         self.frames = []
         self.number_of_frames = n
@@ -79,18 +89,15 @@ class I_Page():
             self.frames.append(Frame(master = self.window))
             self.frames[i].grid(row=i, column=col, sticky="n")
             
-    # def add_frame(self):
-        
-    #     self.window.rowconfigure(self.number_of_frames, weight=1)
-    #     self.frames.append(Frame(master = self.window))
-    #     self.frames[self.number_of_frames].grid(row=self.number_of_frames, column=0, sticky="n")
-        
-    #     self.number_of_frames = self.number_of_frames + 1
-        
+
 class Drop_Down_Menu():
-    def __init__(self, window, frame, tag_table):
+    def __init__(self, window, frame, tag_table, start_value = -1):
         self.value = StringVar(window)
-        self.value.set(tag_table[-1])
+        self.value.set(tag_table[start_value])
         self.menu = OptionMenu(frame, self.value, *tag_table)
         self.menu.pack()
+        
+    def get(self):
+        return self.value.get()
+    
         
