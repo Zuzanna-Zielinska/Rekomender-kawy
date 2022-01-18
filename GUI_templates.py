@@ -17,6 +17,7 @@ class I_Window():
     def __init__(self, width, height):
         self.window = Tk()  # tworzenie okna
         self.window.geometry('{0}x{1}'.format(width, height))
+        self.window.configure(bg= '#c1c7b6')
         
     
     def mainloop(self):

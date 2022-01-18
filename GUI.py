@@ -43,6 +43,7 @@ class Main_Window(I_Window):
     def __init__(self, *args, **kwargs):
         
         super().__init__(*args, **kwargs) #załadowanie initu z rodzica
+
         Start_Page(self.window)   
      
 """
@@ -55,6 +56,9 @@ class Start_Page(I_Page):
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs) #załadowanie initu z rodzica
+        self.logo_png = PhotoImage(file=r"png/logo.png")
+        self.add_user_png = PhotoImage(file=r"png/add_user.png")
+        self.pick_user_png = PhotoImage(file=r"png/pick_user.png")
         self.layout()
         
     
@@ -69,19 +73,19 @@ class Start_Page(I_Page):
 
         # ---------------tytuł----------------
         title = Label(master=self.frames[0],
-                      text="Rekomender", font=self.title_font)
+                      image = self.logo_png)
         title.pack()
         # ------------------------------------
         # ------------przyciski------------
-        self.button_login = Button( master = self.frames[1], width = self.button_size[0],
-            height = self.button_size[1], text="Wybierz użytkownika", font = self.button_font, 
+        self.button_login = Button( master = self.frames[1], width = self.like_button_size[0],
+            height = self.button_size[1],image = self.pick_user_png, text="Wybierz użytkownika", font = self.button_font,
             command=(lambda: self.change_page(Recommendation_Page, self.choose_user.get(), True)))
         self.button_login.pack()
         
         self.choose_user = Drop_Down_Menu(self.window, self.frames[1], user.get_all_user_names())
         
-        self.button_create_user = Button( master = self.frames[1], width = self.button_size[0],
-            height = self.button_size[1], text="Dodaj użytkownika", font = self.button_font, 
+        self.button_create_user = Button( master = self.frames[1], width = self.like_button_size[0],
+            height = self.button_size[1],image = self.add_user_png, text="Dodaj użytkownika", font = self.button_font,
             command=(lambda: self.change_page(Create_User_Page)))
         self.button_create_user.pack()
         # ----------------------------------
@@ -105,6 +109,7 @@ class Create_User_Page(I_Page):
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs) #załadowanie initu z rodzica
+        self.logo_png = PhotoImage(file=r"png/logo.png")
         self.layout()
         
     def layout(self):
@@ -116,7 +121,7 @@ class Create_User_Page(I_Page):
         
         # ---------------tytuł----------------
         title = Label(master=self.frames[0],
-                      text="Kreacja użytkownika", font=self.minor_title_font)
+                      image = self.logo_png)
         title.pack()
         # ------------------------------------
         
@@ -180,6 +185,7 @@ class Recommendation_Page(I_Page):
         self.style_table()
         self.diet_png = PhotoImage(file=r"png/diet.png")
         self.back_start_png = PhotoImage(file=r"png/back_start.png")
+        self.logo_png = PhotoImage(file=r"png/logo.png")
 
         if type(choosen_user) == str:
             self.user_id = user.search_for_user_name(choosen_user)
@@ -197,7 +203,7 @@ class Recommendation_Page(I_Page):
         
         # ---------------tytuł----------------
         title = Label(master=self.frames[0],
-                      text="Profil", font=self.minor_title_font)
+                      image = self.logo_png)
         title.pack()
         # ------------------------------------
         
@@ -270,6 +276,8 @@ class Edit_User_Page(Create_User_Page):
         self.window = window
         self.number_of_frames = 0
         self.style_table()
+        self.logo_png = PhotoImage(file=r"png/logo.png")
+
         
         self.user_id = user_id
         self.user_data = pd.read_csv('db/users.csv') 
@@ -309,7 +317,8 @@ class Diet_Page(I_Page):
         self.like_png = PhotoImage(file = r"png/like.png")
         self.dislike_png = PhotoImage(file=r"png/dislike.png")
         self.back_png = PhotoImage(file=r"png/back.png")
-        
+        self.logo_png = PhotoImage(file=r"png/logo.png")
+
         self.layout()
         
     def data_base(self, user_id):
@@ -335,7 +344,7 @@ class Diet_Page(I_Page):
         
         # ---------------tytuł----------------
         title = Label(master=self.frames[0],
-                      text="Dieta", font=self.minor_title_font)
+                      image = self.logo_png)
         title.pack()
         # ------------------------------------
         
@@ -449,5 +458,5 @@ class Diet_Page(I_Page):
         super().change_page(New_Page, chosen_user)
         
         
-open_window = Main_Window(500,500)
+open_window = Main_Window(650,600)
 open_window.mainloop()
