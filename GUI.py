@@ -449,5 +449,5 @@ class Diet_Page(I_Page):
         super().change_page(New_Page, chosen_user)
         
         
-open_window = Main_Window(700, 700)
+open_window = Main_Window(500,500)
 open_window.mainloop()
