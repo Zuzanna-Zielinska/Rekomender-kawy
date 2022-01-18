@@ -236,7 +236,7 @@ class Recommendation_Page(I_Page):
                       text="Dzienny limit kalorii:", font=self.normal_text_font)
         self.label.pack()
         self.kcal = ttk.Entry(master = self.inner_frame_right)
-        self.kcal.insert(0, 1500)
+        self.kcal.insert(0, 2000)
         self.kcal.pack()
         # -----------------------------------------------
         
