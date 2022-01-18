@@ -79,14 +79,14 @@ class Start_Page(I_Page):
         self.button_login = Button( master = self.frames[1], width = self.like_button_size[0],
             height = self.button_size[1],image = self.pick_user_png, text="Wybierz użytkownika",bg='#c1c7b6', font = self.button_font,
             command=(lambda: self.change_page(Recommendation_Page, self.choose_user.get(), True)))
-        self.button_login.pack()
+        self.button_login.pack(pady=(5,5))
         
         self.choose_user = Drop_Down_Menu(self.window, self.frames[1], user.get_all_user_names())
         
         self.button_create_user = Button( master = self.frames[1], width = self.like_button_size[0],
             height = self.button_size[1],image = self.add_user_png, text="Dodaj użytkownika",bg='#c1c7b6', font = self.button_font,
             command=(lambda: self.change_page(Create_User_Page)))
-        self.button_create_user.pack()
+        self.button_create_user.pack(pady=(5,5))
         # ----------------------------------
         
     def change_page(self, New_Page, chosen_user = None, activate_if = False):
@@ -157,7 +157,7 @@ class Create_User_Page(I_Page):
         self.button_go_back = Button( master = self.frames[self.number_of_frames-1], width = self.like_button_size[0],
             height = self.button_size[1],image = self.accept_png, bg='#c1c7b6',text="Zatwierdź wybór", font = self.button_font,
             command=(lambda: self.change_page(Start_Page)))
-        self.button_go_back.pack()
+        self.button_go_back.pack(pady=(5,5))
         # ----------------------------------
         
     def add_user(self):
@@ -257,12 +257,12 @@ class Recommendation_Page(I_Page):
         self.button_go_back = Button( master = self.frames[2], width = self.like_button_size[0],
             height = self.button_size[1],image = self.diet_png,bg='#c1c7b6', text="Sprawdź dietę!", font = self.button_font,
             command=(lambda: self.change_page(Diet_Page, [self.user_id, self.kcal.get()])))
-        self.button_go_back.pack()
+        self.button_go_back.pack(pady=(5,5))
         
         self.button_go_back = Button( master = self.frames[self.number_of_frames-1], width = self.like_button_size[0],
             height = self.button_size[1],image = self.back_start_png, bg='#c1c7b6',text="Powrót do strony startowej", font = self.button_font,
             command=(lambda: self.change_page(Start_Page)))
-        self.button_go_back.pack()
+        self.button_go_back.pack(pady=(5,5))
         # ----------------------------------
         
         
@@ -435,7 +435,7 @@ class Diet_Page(I_Page):
         self.button_go_back = Button( master = self.frames[self.number_of_frames-1], width = self.like_button_size[0],
             height = self.button_size[1], image= self.back_png, text="Powrót do profilu", font = self.button_font,bg='#c1c7b6',
             command = lambda: self.change_page(Recommendation_Page, self.user_id))
-        self.button_go_back.pack()
+        self.button_go_back.pack(pady=(5,5))
         # ----------------------------------
 
     def set_like(self, a):
@@ -463,5 +463,5 @@ class Diet_Page(I_Page):
         super().change_page(New_Page, chosen_user)
         
         
-open_window = Main_Window(650,600)
+open_window = Main_Window(800,600)
 open_window.mainloop()
