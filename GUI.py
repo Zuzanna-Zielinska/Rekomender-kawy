@@ -70,22 +70,21 @@ class Start_Page(I_Page):
         self.make_frames(2)
         #tło
 
-
         # ---------------tytuł----------------
         title = Label(master=self.frames[0],
-                      image = self.logo_png)
+                      image = self.logo_png, bg='#c1c7b6')
         title.pack()
         # ------------------------------------
         # ------------przyciski------------
         self.button_login = Button( master = self.frames[1], width = self.like_button_size[0],
-            height = self.button_size[1],image = self.pick_user_png, text="Wybierz użytkownika", font = self.button_font,
+            height = self.button_size[1],image = self.pick_user_png, text="Wybierz użytkownika",bg='#c1c7b6', font = self.button_font,
             command=(lambda: self.change_page(Recommendation_Page, self.choose_user.get(), True)))
         self.button_login.pack()
         
         self.choose_user = Drop_Down_Menu(self.window, self.frames[1], user.get_all_user_names())
         
         self.button_create_user = Button( master = self.frames[1], width = self.like_button_size[0],
-            height = self.button_size[1],image = self.add_user_png, text="Dodaj użytkownika", font = self.button_font,
+            height = self.button_size[1],image = self.add_user_png, text="Dodaj użytkownika",bg='#c1c7b6', font = self.button_font,
             command=(lambda: self.change_page(Create_User_Page)))
         self.button_create_user.pack()
         # ----------------------------------
@@ -128,13 +127,13 @@ class Create_User_Page(I_Page):
         
         # ---------------pola do wpisywania danych----------------
         self.name_label = Label(master=self.frames[1],
-                      text="Podaj imię", font=self.normal_text_font)
+                      text="Podaj imię", bg='#c1c7b6',font=self.normal_text_font)
         self.name_label.pack()
         self.name = ttk.Entry(master = self.frames[1])
         self.name.pack()
         
         self.surname_label = Label(master=self.frames[1],
-                      text="Podaj nazwisko", font=self.normal_text_font)
+                      text="Podaj nazwisko",bg='#c1c7b6', font=self.normal_text_font)
         self.surname_label.pack()
         self.surname = ttk.Entry(master = self.frames[1])
         self.surname.pack()
@@ -142,13 +141,13 @@ class Create_User_Page(I_Page):
         
         # ---------------preferencje----------------
         self.label = Label(master=self.frames[1],
-                      text="Czy jesz dania mięsne?", font=self.normal_text_font)
+                      text="Czy jesz dania mięsne?",bg='#c1c7b6', font=self.normal_text_font)
         self.label.pack()
 
         self.meat_or_not = Drop_Down_Menu(self.window, self.frames[1], tag_meat_or_not)
         
         self.label = Label(master=self.frames[1],
-                      text="Wolisz dania łagodne, czy ostre?", font=self.normal_text_font)
+                      text="Wolisz dania łagodne, czy ostre?", bg='#c1c7b6',font=self.normal_text_font)
         self.label.pack()
 
         self.spiciness = Drop_Down_Menu(self.window, self.frames[1], tag_spiciness)
@@ -156,7 +155,7 @@ class Create_User_Page(I_Page):
         
         # ------------przyciski------------
         self.button_go_back = Button( master = self.frames[self.number_of_frames-1], width = self.like_button_size[0],
-            height = self.button_size[1],image = self.accept_png, text="Zatwierdź wybór", font = self.button_font,
+            height = self.button_size[1],image = self.accept_png, bg='#c1c7b6',text="Zatwierdź wybór", font = self.button_font,
             command=(lambda: self.change_page(Start_Page)))
         self.button_go_back.pack()
         # ----------------------------------
@@ -187,6 +186,8 @@ class Recommendation_Page(I_Page):
         self.diet_png = PhotoImage(file=r"png/diet.png")
         self.back_start_png = PhotoImage(file=r"png/back_start.png")
         self.logo_png = PhotoImage(file=r"png/logo.png")
+        self.edit_png = PhotoImage(file=r"png/edit.png")
+
 
         if type(choosen_user) == str:
             self.user_id = user.search_for_user_name(choosen_user)
@@ -201,40 +202,41 @@ class Recommendation_Page(I_Page):
         '''
         
         self.make_frames(4)
+
         
         # ---------------tytuł----------------
         title = Label(master=self.frames[0],
-                      image = self.logo_png)
+                      image = self.logo_png,bg='#c1c7b6')
         title.pack()
         # ------------------------------------
         
         # ---------------info użytkownika----------------
-        self.inner_frame_right = Frame(master=self.frames[1])
+        self.inner_frame_right = Frame(master=self.frames[1],bg='#c1c7b6')
         self.inner_frame_right.grid(row=0, column=0, sticky="w")
         
         self.label = Label(master=self.inner_frame_right,
-                      text="Imię:", font=self.normal_text_font)
+                      text="Imię:",bg='#c1c7b6', font=self.normal_text_font)
         self.label.pack()
         self.label = Label(master=self.inner_frame_right,
-                      text=self.user_data.imie[self.user_id - 1], font=self.normal_text_font)
-        self.label.pack()
-        
-        self.label = Label(master=self.inner_frame_right,
-                      text="Nazwisko:", font=self.normal_text_font)
-        self.label.pack()
-        self.label = Label(master=self.inner_frame_right,
-                      text=self.user_data.nazwisko[self.user_id - 1], font=self.normal_text_font)
+                      text=self.user_data.imie[self.user_id - 1], bg='#c1c7b6',font=self.normal_text_font)
         self.label.pack()
         
         self.label = Label(master=self.inner_frame_right,
-                      text="Preferencje:", font=self.normal_text_font)
+                      text="Nazwisko:", bg='#c1c7b6',font=self.normal_text_font)
         self.label.pack()
         self.label = Label(master=self.inner_frame_right,
-                      text=self.user_data.preferences[self.user_id - 1], font=self.normal_text_font)
+                      text=self.user_data.nazwisko[self.user_id - 1],bg='#c1c7b6', font=self.normal_text_font)
         self.label.pack()
         
         self.label = Label(master=self.inner_frame_right,
-                      text="Dzienny limit kalorii:", font=self.normal_text_font)
+                      text="Preferencje:",bg='#c1c7b6', font=self.normal_text_font)
+        self.label.pack()
+        self.label = Label(master=self.inner_frame_right,
+                      text=self.user_data.preferences[self.user_id - 1], bg='#c1c7b6',font=self.normal_text_font)
+        self.label.pack()
+        
+        self.label = Label(master=self.inner_frame_right,
+                      text="Dzienny limit kalorii:",bg='#c1c7b6', font=self.normal_text_font)
         self.label.pack()
         self.kcal = ttk.Entry(master = self.inner_frame_right)
         self.kcal.insert(0, 2000)
@@ -246,19 +248,19 @@ class Recommendation_Page(I_Page):
         self.inner_frame_right.grid(row=0, column=1, sticky="e")
         
         self.button_go_back = Button( master = self.inner_frame_right, width = self.small_button_size[0],
-            height = self.small_button_size[1], text="Edytuj", font = self.button_font, 
+            height = self.small_button_size[1], image = self.edit_png, bg='#c1c7b6',text="Edytuj", font = self.button_font,
             command=(lambda: self.change_page(Edit_User_Page, self.user_id)))
         self.button_go_back.pack()
         # ----------------------------------------------------------
         
         # ------------przyciski------------
         self.button_go_back = Button( master = self.frames[2], width = self.like_button_size[0],
-            height = self.button_size[1],image = self.diet_png, text="Sprawdź dietę!", font = self.button_font,
+            height = self.button_size[1],image = self.diet_png,bg='#c1c7b6', text="Sprawdź dietę!", font = self.button_font,
             command=(lambda: self.change_page(Diet_Page, [self.user_id, self.kcal.get()])))
         self.button_go_back.pack()
         
         self.button_go_back = Button( master = self.frames[self.number_of_frames-1], width = self.like_button_size[0],
-            height = self.button_size[1],image = self.back_start_png, text="Powrót do strony startowej", font = self.button_font,
+            height = self.button_size[1],image = self.back_start_png, bg='#c1c7b6',text="Powrót do strony startowej", font = self.button_font,
             command=(lambda: self.change_page(Start_Page)))
         self.button_go_back.pack()
         # ----------------------------------
@@ -342,73 +344,75 @@ class Diet_Page(I_Page):
         '''
         
         self.make_frames(11)
+
+
         
         # ---------------tytuł----------------
         title = Label(master=self.frames[0],
-                      image = self.logo_png)
+                      image = self.logo_png,bg='#c1c7b6')
         title.pack()
         # ------------------------------------
         
         # ---------------sniadanie----------------
         self.label = Label(master=self.frames[1],
-                      text="Śniadanie: " + self.recommend[0]['food_title'], font=self.dish_title_text_font)
+                      text="Śniadanie: " + self.recommend[0]['food_title'], bg='#c1c7b6',font=self.dish_title_text_font)
         self.label.pack()
         
         self.label = Label(master=self.frames[2],
                       text= "{0} kcal, ".format(self.recommend[0]['kcal']), 
-                      font=self.normal_text_font)
+                      font=self.normal_text_font,bg='#c1c7b6')
         self.label.grid(row=0, column=0)
         
         self.label = Label(master=self.frames[2],
                       text= "{0:.3f} trafności".format(self.recommend[0]['hybrid_score_śniadanie']), 
-                      font=self.normal_text_font)
+                      font=self.normal_text_font,bg='#c1c7b6')
         self.label.grid(row=0, column=1)
         # ----------------------------------------
         
         # ---------------zupa------------------
         self.label = Label(master=self.frames[3],
-                      text="Zupa: " + self.recommend[3]['food_title'], font=self.dish_title_text_font)
+                      text="Zupa: " + self.recommend[3]['food_title'],bg='#c1c7b6', font=self.dish_title_text_font)
         self.label.pack()
         
         self.label = Label(master=self.frames[4],
-                      text= "{0} kcal, ".format(self.recommend[3]['kcal']), 
+                      text= "{0} kcal, ".format(self.recommend[3]['kcal']), bg='#c1c7b6',
                       font=self.normal_text_font)
         self.label.grid(row=0, column=0)
         
         self.label = Label(master=self.frames[4],
-                      text= "{0:.3f} trafności".format(self.recommend[3]['hybrid_score_zupa']), 
+                      text= "{0:.3f} trafności".format(self.recommend[3]['hybrid_score_zupa']), bg='#c1c7b6',
                       font=self.normal_text_font)
         self.label.grid(row=0, column=1)
         # --------------------------------------
         
         # ---------------drugie danie------------------
         self.label = Label(master=self.frames[5],
-                      text="Drugie danie: " + self.recommend[2]['food_title'], font=self.dish_title_text_font)
+                      text="Drugie danie: " + self.recommend[2]['food_title'],bg='#c1c7b6', font=self.dish_title_text_font)
         self.label.pack()
         
         self.label = Label(master=self.frames[6],
-                      text= "{0} kcal, ".format(self.recommend[2]['kcal']), 
+                      text= "{0} kcal, ".format(self.recommend[2]['kcal']), bg='#c1c7b6',
                       font=self.normal_text_font)
         self.label.grid(row=0, column=0)
         
         self.label = Label(master=self.frames[6],
-                      text= "{0:.3f} trafności".format(self.recommend[2]['hybrid_score_obiad']), 
+                      text= "{0:.3f} trafności".format(self.recommend[2]['hybrid_score_obiad']), bg='#c1c7b6',
                       font=self.normal_text_font)
         self.label.grid(row=0, column=1)
         # ---------------------------------------------
         
         # ---------------kolacja------------------
-        self.label = Label(master=self.frames[7],
+        self.label = Label(master=self.frames[7],bg='#c1c7b6',
                       text="Kolacja: " + self.recommend[1]['food_title'], font=self.dish_title_text_font)
         self.label.pack()
         
         self.label = Label(master=self.frames[8],
-                      text= "{0} kcal, ".format(self.recommend[1]['kcal']), 
+                      text= "{0} kcal, ".format(self.recommend[1]['kcal']), bg='#c1c7b6',
                       font=self.normal_text_font)
         self.label.grid(row=0, column=0)
         
         self.label = Label(master=self.frames[8],
-                      text= "{0:.3f} trafności".format(self.recommend[1]['hybrid_score_kolacja']), 
+                      text= "{0:.3f} trafności".format(self.recommend[1]['hybrid_score_kolacja']), bg='#c1c7b6',
                       font=self.normal_text_font)
         self.label.grid(row=0, column=1)
         # ----------------------------------------
@@ -416,20 +420,20 @@ class Diet_Page(I_Page):
         # ------------przyciski------------
         #polubienie
         self.button_dislike1 = Button( master = self.frames[self.number_of_frames-2], width = self.like_button_size[0],
-            height = self.like_button_size[1],image= self.dislike_png, text="dislike", font = self.like_button_font,
+            height = self.like_button_size[1],image= self.dislike_png, text="dislike", font = self.like_button_font,bg='#c1c7b6',
             command = lambda: self.set_like(0))
 
         self.button_dislike1.grid(row=0, column=0)
         
         self.button_like1 = Button( master = self.frames[self.number_of_frames-2], width = self.like_button_size[0],
-            height = self.like_button_size[1], image= self.like_png, text="like", font = self.like_button_font,
+            height = self.like_button_size[1], image= self.like_png, text="like", font = self.like_button_font,bg='#c1c7b6',
             command = lambda: self.set_like(1))
 
         self.button_like1.grid(row=0, column=1)
         
         #przycisk powrotu
         self.button_go_back = Button( master = self.frames[self.number_of_frames-1], width = self.like_button_size[0],
-            height = self.button_size[1], image= self.back_png, text="Powrót do profilu", font = self.button_font,
+            height = self.button_size[1], image= self.back_png, text="Powrót do profilu", font = self.button_font,bg='#c1c7b6',
             command = lambda: self.change_page(Recommendation_Page, self.user_id))
         self.button_go_back.pack()
         # ----------------------------------
