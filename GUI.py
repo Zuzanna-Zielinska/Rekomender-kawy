@@ -31,6 +31,7 @@ import recommender as re
 tag_meat_or_not = ["Vegan", "Wegetariański", "mięsny"]
 tag_spiciness = ["ostry", "średni", "łagodny"]
 
+
 """
 Główne okno programu. Inicjuje stronę startową.
 
@@ -63,6 +64,8 @@ class Start_Page(I_Page):
         '''
         
         self.make_frames(2)
+        #tło
+
 
         # ---------------tytuł----------------
         title = Label(master=self.frames[0],
@@ -175,7 +178,9 @@ class Recommendation_Page(I_Page):
         self.window = window
         self.number_of_frames = 0
         self.style_table()
-        
+        self.diet_png = PhotoImage(file=r"png/diet.png")
+        self.back_start_png = PhotoImage(file=r"png/back_start.png")
+
         if type(choosen_user) == str:
             self.user_id = user.search_for_user_name(choosen_user)
         else:
@@ -240,13 +245,13 @@ class Recommendation_Page(I_Page):
         # ----------------------------------------------------------
         
         # ------------przyciski------------
-        self.button_go_back = Button( master = self.frames[2], width = self.button_size[0],
-            height = self.button_size[1], text="Sprawdź dietę!", font = self.button_font, 
+        self.button_go_back = Button( master = self.frames[2], width = self.like_button_size[0],
+            height = self.button_size[1],image = self.diet_png, text="Sprawdź dietę!", font = self.button_font,
             command=(lambda: self.change_page(Diet_Page, [self.user_id, self.kcal.get()])))
         self.button_go_back.pack()
         
-        self.button_go_back = Button( master = self.frames[self.number_of_frames-1], width = self.button_size[0],
-            height = self.button_size[1], text="Powrót do strony startowej", font = self.button_font, 
+        self.button_go_back = Button( master = self.frames[self.number_of_frames-1], width = self.like_button_size[0],
+            height = self.button_size[1],image = self.back_start_png, text="Powrót do strony startowej", font = self.button_font,
             command=(lambda: self.change_page(Start_Page)))
         self.button_go_back.pack()
         # ----------------------------------
@@ -301,6 +306,9 @@ class Diet_Page(I_Page):
         self.kcal_limit = int(user_id[1])
         self.data_base(user_id[0])
         self.is_liked = 2 #like - 1, dislike - 0, brak interakcji - 2
+        self.like_png = PhotoImage(file = r"png/like.png")
+        self.dislike_png = PhotoImage(file=r"png/dislike.png")
+        self.back_png = PhotoImage(file=r"png/back.png")
         
         self.layout()
         
@@ -398,20 +406,20 @@ class Diet_Page(I_Page):
         # ------------przyciski------------
         #polubienie
         self.button_dislike1 = Button( master = self.frames[self.number_of_frames-2], width = self.like_button_size[0],
-            height = self.like_button_size[1], text="dislike", font = self.like_button_font, 
+            height = self.like_button_size[1],image= self.dislike_png, text="dislike", font = self.like_button_font,
             command = lambda: self.set_like(0))
 
         self.button_dislike1.grid(row=0, column=0)
         
         self.button_like1 = Button( master = self.frames[self.number_of_frames-2], width = self.like_button_size[0],
-            height = self.like_button_size[1], text="like", font = self.like_button_font, 
+            height = self.like_button_size[1], image= self.like_png, text="like", font = self.like_button_font,
             command = lambda: self.set_like(1))
 
         self.button_like1.grid(row=0, column=1)
         
         #przycisk powrotu
-        self.button_go_back = Button( master = self.frames[self.number_of_frames-1], width = self.button_size[0],
-            height = self.button_size[1], text="Powrót do profilu", font = self.button_font, 
+        self.button_go_back = Button( master = self.frames[self.number_of_frames-1], width = self.like_button_size[0],
+            height = self.button_size[1], image= self.back_png, text="Powrót do profilu", font = self.button_font,
             command = lambda: self.change_page(Recommendation_Page, self.user_id))
         self.button_go_back.pack()
         # ----------------------------------
@@ -441,5 +449,5 @@ class Diet_Page(I_Page):
         super().change_page(New_Page, chosen_user)
         
         
-open_window = Main_Window(500, 580)
+open_window = Main_Window(700, 700)
 open_window.mainloop()
