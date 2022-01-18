@@ -81,8 +81,9 @@ class I_Page():
         
         self.frames = []
         self.number_of_frames = n
-        
+
         # ----elementy w oknie dopasowują się do jego rozmiaru----
+
         self.window.columnconfigure(col, weight=1)
         for i in range(2):
             self.window.rowconfigure(i, weight=1)
@@ -92,7 +93,7 @@ class I_Page():
             
             self.frames.append(Frame(master = self.window))
             self.frames[i].grid(row=i, column=col, sticky="n")
-            
+            self.frames[i].configure(bg='#c1c7b6')
 
 class Drop_Down_Menu():
     def __init__(self, window, frame, tag_table, start_value = -1):

@@ -110,6 +110,7 @@ class Create_User_Page(I_Page):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs) #załadowanie initu z rodzica
         self.logo_png = PhotoImage(file=r"png/logo.png")
+        self.accept_png = PhotoImage(file=r"png/accept.png")
         self.layout()
         
     def layout(self):
@@ -118,7 +119,7 @@ class Create_User_Page(I_Page):
         '''
         
         self.make_frames(3)
-        
+
         # ---------------tytuł----------------
         title = Label(master=self.frames[0],
                       image = self.logo_png)
@@ -154,8 +155,8 @@ class Create_User_Page(I_Page):
         # -------------------------------------------
         
         # ------------przyciski------------
-        self.button_go_back = Button( master = self.frames[self.number_of_frames-1], width = self.button_size[0],
-            height = self.button_size[1], text="Zatwierdź wybór", font = self.button_font, 
+        self.button_go_back = Button( master = self.frames[self.number_of_frames-1], width = self.like_button_size[0],
+            height = self.button_size[1],image = self.accept_png, text="Zatwierdź wybór", font = self.button_font,
             command=(lambda: self.change_page(Start_Page)))
         self.button_go_back.pack()
         # ----------------------------------
@@ -277,7 +278,7 @@ class Edit_User_Page(Create_User_Page):
         self.number_of_frames = 0
         self.style_table()
         self.logo_png = PhotoImage(file=r"png/logo.png")
-
+        self.accept_png = PhotoImage(file=r"png/accept.png")
         
         self.user_id = user_id
         self.user_data = pd.read_csv('db/users.csv') 
